@@ -26,7 +26,7 @@ I am an Engineering leader with 15+ years of experience designing and building s
 ## Structure
 
 ```
-engineering-leadership/
+em-playbook/
 ├── engineering-strategies/   # Technical practices for operating high-stakes systems
 │   ├── incident-management/
 │   ├── migrations-and-releases/
