@@ -94,7 +94,7 @@ A practical severity framework for payment systems:
 For P1 and P2 incidents, response means activating a war room, a synchronous, focused environment where the right people are working the problem together. For the response phase, the most important engineering decisions are:
 
 #### Isolate before diagnose
-If you can stop the bleeding, like disable a failing integration, or route traffic away from a broken PSP, or halt a batch job that is creating bad data, or reverse to last healthy system if release issue, do it before spending time understanding root cause. Stopping the harm and understanding the cause are separate activities.
+If you can stop the bleeding, like disable a failing integration, or route traffic away from a broken PSP, or halt a batch job that is creating bad data, or reverse to last healthy system if release issue, do it before spending time understanding root cause. Stopping the harm and understanding the cause should be treated as separate activities.
 
 #### Explicit role assignment
 In the heat of an incident, implicit role assignment fails. Somebody needs to own: the technical investigation, the customer impact assessment, the communication stream, and the timeline documentation. These should be named, not assumed.
@@ -133,4 +133,73 @@ If the incident involves a third-party payment rail or bank, they may need to be
 #### Leadership 
 Need a single clear status at regular intervals. The message should not contain raw technical detail, but the business impact, customer impact, estimated resolution, and what is being done.
 
-> If possible and bandwidth available, allocate dedicated person per audience. Do not involve engineers directly in the communication while they are debugging the issue. Engineering managers/Product managers are usually this dedicated person. 
+> If possible and bandwidth available, allocate dedicated person per audience. Do not involve engineers directly in the communication while they are debugging the issue. **Engineering managers/Product managers** are usually this dedicated person.
+
+### Phase 5 - Resolution
+In a financial + distributed system, resolution is not the same as *service recovery*, but includes following considerations:
+
+- The root cause is identified and addressed or mitigated.
+- The payment flow is functioning correctly for all affected as well as non affected customer.
+- No funds are in an indeterminate state.
+- Related services, like reconciliation, has been run and no breaks attributable to the incident exist.
+- Any regulatory notification obligation has been assessed and acted on.
+
+> Check on *related services* is very important, and often forgotten step in incident resolution. Building an end-to-end checklist of system's health is crucial to avoid this.
+
+### Phase 6 - Post-mortem (Retrospective & future strategies)
+This is the final phase, often called as retrospective, where teams learns and improve, without blame-shifts and finger-pointing. 
+
+Beyond standard formats, a successful retrospective phase consists following: 
+
+- **Timeline reconstruction**, minute by minute. Use the logs/status reports generated during the earlier phases.
+- **Identify contributing factors**, not humans, but the systems, strategies, conditions etc, that led to the issue.
+- **Quantify user impact**, not just the financial impact to the organisation and the users, but the number of users/region affected; compliants received as well.
+- **Create action items**, a comprehensive and owned action points to avoid future failures, & track their progress in the coming sprints, not just sitting in archives or backlogs.
+
+---
+
+## Approaches to incident-response team
+
+### Centralised incident commander
+A single incident commander owns the response end-to-end, where all decisions flow through this. Engineers report findings to them & the commander decides actions and communications with stakeholders. 
+ 
+**Fits:** Smaller teams, early-stage fintechs, organisations where most engineers have not yet built incident response muscle.
+ 
+**Limitations:** Creates a single point of failure in the human layer. If the commander is unavailable or overwhelmed, response degrades. 
+
+### Dedicated role-based response team
+Roles are pre-assigned and trained: incident commander, technical lead, communications lead etc, & each person operates in their lane. The incident commander coordinates across roles but is not doing all the work themselves. 
+ 
+**Fits:** Mid-size engineering organisations, teams with regular on-call rotation, organisations under FCA or DORA operational resilience requirements.
+ 
+**Limitations:** Requires investment in training and regular exercises, and roles need to be practiced to be effective.
+
+### Tiered response by severity
+P4 and P3 incidents are handled by the on-call engineer alone, using runbooks. P2 activates a small dedicated response team, while P1 activates the full war room with leadership involvement.
+ 
+**Fits:** All fintech organisations at any stage. 
+
+**Limitations:** Severity classification is a part of incident management, without involving relevant people, there is a risk of misclassification. 
+
+---
+
+## Recommendations from personal experience
+
+- **Define severity matrix early** because the worst time to debate whether something is P1 or P2 is during a live incident. Write the matrix, walk through it with your team, and stress-test it against real past incidents.
+- **Treat the resolution checklist as a gate, not a formality** as one service-check missed can lead to a disaster.
+- **Invest in post-mortem quality over frequency:** One constructive post-mortem that produces three implemented action items is worth more than ten documents that get filed and forgotten.
+- **Know your regulatory notification obligations across the team:** Every engineer in a senior role at a regulated fintech should know: what severity triggers which notification, and what the notification timeline is. This is not only the compliance team responsibility, but a shared responsibility that starts with engineering awareness. 
+- **Run tabletop exercises quarterly:** The war room patterns that work under real pressure are the ones that have been practiced. Implement scenario-based exercises, "a PSP has gone down during peak hours, here is what you know at minute zero", to build the muscle memory that matters when the real incident fires.
+
+---
+
+## Further Reading
+ 
+- [Google SRE: Managing Incidents](https://sre.google/sre-book/managing-incidents/): The foundational framework for incident management. Not fintech-specific, but the role-based model and the principle of separating technical response from communication are directly applicable.
+- [PagerDuty Incident Response Guide](https://response.pagerduty.com/): Practical and free. The post-mortem template and severity definitions are worth adapting for fintech context.
+- [FCA — Operational Resilience Policy Statement PS21/3](https://www.fca.org.uk/publications/policy-statements/ps21-3-building-operational-resilience): The UK regulatory framework. Engineering teams in FCA-regulated firms should understand what "impact tolerance" means and how incident severity maps to it.
+- [DORA — ICT-Related Incident Classification](https://www.eba.europa.eu/regulation-and-policy/operational-resilience/digital-operational-resilience-act-dora): The EU framework. Specifically the RTS on incident classification — this defines when you must notify and how fast.
+- [Stripe Engineering Blog — Increment: Reliability](https://increment.com/reliability/): Real engineering writing on operational reliability from one of the most operationally mature payment companies.
+ 
+ ---
+
