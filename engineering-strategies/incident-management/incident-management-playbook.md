@@ -43,5 +43,94 @@ The FCA's operational resilience rules and DORA both impose notification obligat
 ## The Incident Lifecycle
 A well-managed incident moves through six distinct phases, each with specific engineering and leadership responsibilities.
 
+```
+Detection -> Classification -> Response -> Communication -> Resolution -> Post-mortem
+```
+### Phase 1 - Detection
+Detection should come from your systems, not from customers. If customers are reporting payment failures before your alerts fire, the observability is insufficient.
 
+Effective detection for payment systems requires alerting on:
  
+- Payment success rate dropping below threshold.
+- Authorisation decline rate spike by response code
+- PSP connectivity and response time
+- Settlement file submission confirmation, absence of success is an alert, not a non-event
+- Reconciliation break count crossing threshold
+- Ledger balance assertion failures
+ 
+```java
+// Example: payment success rate alert, fires when 5-minute success rate drops below 98%
+// Do not alert on percentage alone, combine with minimum volume to avoid noise on low traffic
+@Component
+public class PaymentSuccessRateMonitor {
+ 
+    private static final double ALERT_THRESHOLD = 0.98;
+    private static final int MIN_VOLUME_FOR_ALERT = 50;
+ 
+    public boolean shouldAlert(PaymentMetrics metrics) {
+        if (metrics.totalAttempts() < MIN_VOLUME_FOR_ALERT) {
+            return false; // insufficient volume to signal
+        }
+        return metrics.successRate() < ALERT_THRESHOLD;
+    }
+}
+```
+ 
+> The on-call engineer who receives the alert needs enough context to classify the severity immediately. Alert messages should state: what is failing, how many customers are affected (estimated), and what the last known good state of the system was.
+
+### Phase 2 - Classification
+Classification determines the response. Get it wrong and you either under-respond to a serious incident or exhaust your team on a false alarm.
+
+A practical severity framework for payment systems:
+ 
+| Severity | Definition | Response | Notify |
+|---|---|---|---|
+| **P1** | Core payment flow broken, customer money at risk, or funds in indeterminate state | Immediate all-hands, leadership alerted | Compliance, legal, bank relationship, CEO |
+| **P2** | Significant payment degradation, >5% failure rate, or specific cohort fully blocked | Immediate engineering response, EM alerted | EM, product, ops |
+| **P3** | Partial degradation, single integration failing, <5% affected, workaround exists | On-call response within 30 minutes | On-call EM |
+| **P4** | Performance degradation, non-critical feature impacted, no customer money at risk | Next business day | Engineering |
+
+### Phase 3 - Response
+For P1 and P2 incidents, response means activating a war room, a synchronous, focused environment where the right people are working the problem together. For the response phase, the most important engineering decisions are:
+
+#### Isolate before diagnose
+If you can stop the bleeding, like disable a failing integration, or route traffic away from a broken PSP, or halt a batch job that is creating bad data, or reverse to last healthy system if release issue, do it before spending time understanding root cause. Stopping the harm and understanding the cause are separate activities.
+
+#### Explicit role assignment
+In the heat of an incident, implicit role assignment fails. Somebody needs to own: the technical investigation, the customer impact assessment, the communication stream, and the timeline documentation. These should be named, not assumed.
+
+#### Log everything in real-time
+Every hypothesis, every action taken, every system state observed, should be logged. It is not just for the post-mortem, but for the next people who might join the incident bridge 20 minutes in. Catching up from a live log is faster than catching up from conversation.
+
+```
+# Incident log format — simple, timestamped, in a shared doc or incident channel
+ 
+14:32  [Kratika]  Alert fired: payment success rate 91.2% over 5 min window
+14:34  [Kratika]  Confirmed: all Barclays-issued Visa debit failing with DE39 code 91
+14:36  [James]    PSP dashboard shows Barclays BIN range flagged, not our system
+14:40  [Kratika]  DECISION: disable automatic retry on code 91 to prevent scheme fine exposure
+14:42  [James]    Retry disabled. Monitoring success rate.
+14:45  [Kratika]  Success rate recovering — 96.8%. Barclays-issued cards still failing.
+14:50  [Sarah]    Customer comms drafted, posted to status page
+14:52  [James]    Confirmed PSP has opened incident with Barclays. ETA unknown.
+```
+
+### Phase 4 - Communication
+Communication during an incident has multiple audiences with different needs and different urgency:
+
+#### Customers/Clients
+Need to know there is a problem, that it is being worked on, and what they should do in the meantime. Use simple & plain language, no technical detail, no speculation about cause or timeline. Update at regular intervals, even "still investigating, no update" is better than silence.
+
+#### Operations & Customer Support
+Need to know what is broken, which customers are affected, and what workarounds (if any) exist. They are fielding calls and need information, not just awareness.
+
+#### Compliance & legal 
+Need to know if this incident triggers regulatory notification obligations. They will make that call, but they need the facts from engineering to do so; do not delay this conversation.
+
+#### Bank/PSP/Third-party Integrators
+If the incident involves a third-party payment rail or bank, they may need to be contacted directly and may have information you do not. Do not wait for the formal support ticket to escalate.
+
+#### Leadership 
+Need a single clear status at regular intervals. The message should not contain raw technical detail, but the business impact, customer impact, estimated resolution, and what is being done.
+
+> If possible and bandwidth available, allocate dedicated person per audience. Do not involve engineers directly in the communication while they are debugging the issue. Engineering managers/Product managers are usually this dedicated person. 
