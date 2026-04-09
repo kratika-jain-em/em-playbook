@@ -27,3 +27,18 @@ TDD in fintech has seven dimensions, each with different weight depending on the
 ![alt text](https://github.com/kratika-jain-em/em-playbook/blob/main/leadership-strategies/engineering-excellence/fintech-technical-due-diligence.png "Financial-technical-due-diligence")
 
 ### Dimension 1 - System Reliability
+
+The first question in any fintech TDD is: what happens when something goes wrong?
+ 
+This is a more revealing question than "what does the system do when it works." Any system works in the happy path. What differentiates mature from immature engineering organisations is how they handle failure.
+
+#### What to ask
+ 
+- *Walk me through the last three production incidents. What was the root cause, how long did it take to detect, and what changed as a result?*
+- *How do you know a payment has failed? How long after the failure do you know?*
+- *What happens to funds during a PSP outage? Where do they sit and who monitors them?*
+- *What is your settlement failure rate? What happens when a settlement file is rejected?*
+ 
+#### What you are looking for
+ 
+Teams with mature operational practices can answer these questions quickly and specifically. They have incident timelines, dashboards, monitoring etc. If they don't have live examples, they have comprehensive runbooks to follow. 
