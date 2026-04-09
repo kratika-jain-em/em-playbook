@@ -24,33 +24,6 @@ Before we talk about actual framework, let's clarify what technical due-diligenc
 ## The TDD-Evaluation framework
 TDD in fintech has seven dimensions, each with different weight depending on the context - pre-investment, leadership transition or consulting engagement. 
 
-```
-┌─────────────────────────────────────────────────────┐
-│              FINTECH TDD FRAMEWORK                  │
-├─────────────┬───────────────────────────────────────┤
-│  Dimension  │  Primary Question                     │
-├─────────────┼───────────────────────────────────────┤
-│ Systems     │ Can the core payment systems be       │
-│             │ trusted to work reliably at scale?    │
-├─────────────┼───────────────────────────────────────┤
-│ Data        │ Is financial data accurate, complete, │
-│             │ and auditable?                        │
-├─────────────┼───────────────────────────────────────┤
-│ Compliance  │ Are regulatory obligations understood │
-│             │ and actively managed by engineering?  │
-├─────────────┼───────────────────────────────────────┤
-│ Security    │ Is sensitive financial data protected │
-│             │ at the level the business requires?   │
-├─────────────┼───────────────────────────────────────┤
-│ Team        │ Can this organisation sustain and     │
-│             │ evolve what it has built?             │
-├─────────────┼───────────────────────────────────────┤
-│ Debt        │ What is the true cost and risk of     │
-│             │ the technical debt that exists?       │
-├─────────────┼───────────────────────────────────────┤
-│ Velocity    │ Can the organisation ship reliably    │
-│             │ without breaking what exists?         │
-└─────────────┴───────────────────────────────────────┘
-```
+![alt text](https://github.com/kratika-jain-em/em-playbook/blob/main/leadership-strategies/engineering-excellence/fintech-technical-due-diligence.png "Financial-technical-due-diligence")
 
 ### Dimension 1 - System Reliability
