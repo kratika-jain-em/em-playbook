@@ -62,7 +62,7 @@ The ledger schema question is one of the most revealing in a fintech TDD. A team
 
 ---
 
-### Dimension 3 — Compliance Engineering
+### Dimension 3 - Compliance Engineering
  
 Regulatory compliance in fintech is not a binary state, but a continuous practice. An organisation can be technically compliant today and non-compliant tomorrow because a regulation changed, a new product was launched without a compliance review, or a system change inadvertently reduced a control.
  
@@ -83,7 +83,7 @@ The feature compliance review question is particularly revealing. Mature organis
 
 ---
  
-### Dimension 4 — Security 
+### Dimension 4 - Security 
  
 Security in fintech is not just about protecting user data, but also about protecting funds, preventing fraud at the infrastructure level, and maintaining the trust of payment schemes and regulators.
  
@@ -103,7 +103,7 @@ The employee offboarding question is more revealing than it sounds. "We revoke t
 
 ---
  
-### Dimension 5 — Team & Organisational Health
+### Dimension 5 - Team & Organisational Health
  
 Systems are built and maintained by people. The most important technical debt in many organisations is not just in the code, but also in the team structure, the knowledge distribution, and the organisational conditions that determine whether the engineering organisation can sustain what it has built.
  
@@ -123,7 +123,7 @@ The sprint composition question tells you whether the team is in a sustainable o
 
 ---
  
-### Dimension 6 — Technical Debt Assessment
+### Dimension 6 - Technical Debt Assessment
  
 Technical debt in fintech can create regulatory risk, operational fragility, or security exposure, and not just development velocity. These categories need to be assessed separately from the standard "this makes us slower" debt.
  
@@ -152,7 +152,7 @@ The "what are you most worried about" question is the most valuable in a TDD bec
 
 ---
 
-### Dimension 7 — Delivery Velocity & Process
+### Dimension 7 - Delivery Velocity & Process
 
 #### What to ask
  
@@ -170,7 +170,7 @@ The database migration question is specific to fintech as payment systems have s
 
 ---
  
-## My recommendation
+## My recommendations
  
 ### Start with the worry question
 Before any structured evaluation, ask the engineering leadership: "What are the three things in this system you are most worried about?" The answers orient the rest of the TDD toward what actually matters. If those answers do not surface in the formal evaluation, the formal evaluation is incomplete.
@@ -191,9 +191,9 @@ The most useful TDD report for an engineering organisation is one that articulat
 
 ## Further Reading
  
-- [Martin Kleppmann — Designing Data-Intensive Applications](https://dataintensive.net/) — The theoretical foundation for understanding data integrity, consistency, and audit in distributed financial systems.
-- [a16z — Technical Due Diligence](https://a16z.com/technical-due-diligence/) — A good general framework from the investor perspective. Apply the fintech-specific overlays from this piece on top.
-- [FCA — Technology and Cyber Resilience Questionnaire](https://www.fca.org.uk/firms/technology-cyber-resilience) — What the FCA asks of regulated firms. Useful as a compliance dimension checklist,if a firm cannot answer these questions, neither can a TDD evaluator who did not ask them.
-- [DORA — EBA Guidelines on ICT and Security Risk Management](https://www.eba.europa.eu/regulation-and-policy/operational-resilience/guidelines-ict-and-security-risk-management) — The EU standard for what good looks like in operational and security risk management. Directly applicable to the compliance and security dimensions of a fintech TDD.
-- [Increment — Issue 19: Security](https://increment.com/security/) — Real engineering writing on security practices at scale. Several pieces directly applicable to the security posture dimension of fintech TDD.
+- [Martin Kleppmann — Designing Data-Intensive Applications](https://dataintensive.net/): The theoretical foundation for understanding data integrity, consistency, and audit in distributed financial systems.
+- [a16z — Technical Due Diligence](https://a16z.com/technical-due-diligence/): A good general framework from the investor perspective. Apply the fintech-specific overlays from this piece on top.
+- [FCA — Technology and Cyber Resilience Questionnaire](https://www.fca.org.uk/firms/technology-cyber-resilience): What the FCA asks of regulated firms. Useful as a compliance dimension checklist,if a firm cannot answer these questions, neither can a TDD evaluator who did not ask them.
+- [DORA — EBA Guidelines on ICT and Security Risk Management](https://www.eba.europa.eu/regulation-and-policy/operational-resilience/guidelines-ict-and-security-risk-management): The EU standard for what good looks like in operational and security risk management. Directly applicable to the compliance and security dimensions of a fintech TDD.
+- [Increment — Issue 19: Security](https://increment.com/security/): Real engineering writing on security practices at scale. Several pieces directly applicable to the security posture dimension of fintech TDD.
  
