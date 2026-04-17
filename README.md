@@ -3,6 +3,7 @@
 A structured knowledge library on engineering leadership and operational strategy in fintech, covering how high-performing teams are built, how systems are operated under pressure, and how engineering organisations navigate the unique demands of regulated, high-stakes environments.
 
 > For technical system design, architectures, and failure modes, see [fintech-systems](https://github.com/kratika-jain-em/fintech-systems).
+> For glossary, see [GLOSSARY](GLOSSARY.md)
 
 ---
 
